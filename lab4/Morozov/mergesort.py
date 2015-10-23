@@ -1,3 +1,5 @@
+import sys
+
 __author__ = 'vks'
 
 inf = 2 ** 64
@@ -44,3 +46,18 @@ def merge_sort(array):
     lo = 0
     hi = len(array) - 1
     sort(array, lo, hi, 10)
+
+
+if __name__ == "__main__":
+    elements = [int(s) for s in sys.stdin.readline().split()]
+    merge_sort(elements)
+    for i in elements:
+        sys.stdout.write(str(i) + ' ')
+
+# Empirically found best threshold = 10 using this code:
+# for i in range(1, 20):
+#    elements = [random.randint(0, 1000) for j in range(100000)]
+#    time1 = time.time()
+#    mergesort(elements, 0, len(elements) - 1, i)
+#    time2 = time.time()
+#    print("Time = %s, k = %s" % (time2 - time1, i))

@@ -1,3 +1,5 @@
+import sys
+
 __author__ = 'vks'
 
 
@@ -44,3 +46,10 @@ def radix_sort(array):
     for i in range(len(array)):
         array[i] += min_number
     return array
+
+
+if __name__ == "__main__":
+    elements = [int(i) for i in sys.stdin.readline().split()]
+    elements = radix_sort(elements)
+    for i in elements:
+        sys.stdout.write(str(i) + ' ')

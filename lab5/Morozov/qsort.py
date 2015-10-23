@@ -39,7 +39,8 @@ def qsort(array):
     sort(array, left, right)
 
 
-a = [int(s) for s in sys.stdin.readline().split()]
-qsort(a)
-for i in a:
-    sys.stdout.write(str(i) + ' ')
+if __name__ == "__main__":
+    a = [int(s) for s in sys.stdin.readline().split()]
+    qsort(a)
+    for i in a:
+        sys.stdout.write(str(i) + ' ')

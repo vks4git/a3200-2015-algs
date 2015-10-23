@@ -1,11 +1,21 @@
-from mergesort import merge_sort
-from radix_sort import radix_sort
-from qsort import qsort
 from generators import *
 from time import time
 import pylab
+import sys
 
 __author__ = 'vks'
+
+root = "/"
+parts = __file__.split('/')
+for i in range(1, len(parts) - 3):
+    root += parts[i] + '/'
+
+sys.path.append(root + "lab4/Morozov/")
+sys.path.append(root + "lab5/Morozov/")
+sys.path.append(root + "lab6/Morozov/")
+from mergesort import merge_sort
+from radix_sort import radix_sort
+from qsort import qsort
 
 
 def grade(sort_func, array_generator, size):
@@ -32,23 +42,25 @@ generators = {"Array of random ints from [-1e6, 1e6]": positive_and_negative_arr
               "Descending sorted array": descending_sorted_array,
               "Array with the only distinct element": unique_number_array}
 
-sizes = [100 + 100000 * i for i in range(11)]
-current = 1
+if __name__ == "__main__":
 
-for gen_name, gen in generators.items():
-    pylab.subplot(2, 3, current)
-    pylab.xlabel("size, elements")
-    pylab.ylabel("time, sec")
-    print("Now passing: %s" % gen_name)
-    for func_name, func in sort_functions.items():
-        millis = []
-        for size in sizes:
-            millis.append(grade(func, gen, size))
-            print("\tUsing %s on array of size %s" % (func_name, size))
-        print("\t***\n\n")
-        pylab.plot(sizes, millis, label=func_name)
-    pylab.title(gen_name)
-    pylab.legend(loc='upper left', title="Sorts")
-    current += 1
+    sizes = [100 + 100000 * i for i in range(11)]
+    current = 1
 
-pylab.show()
+    for gen_name, gen in generators.items():
+        pylab.subplot(2, 3, current)
+        pylab.xlabel("size, elements")
+        pylab.ylabel("time, sec")
+        print("Now passing: %s" % gen_name)
+        for func_name, func in sort_functions.items():
+            millis = []
+            for size in sizes:
+                millis.append(grade(func, gen, size))
+                print("\tUsing %s on array of size %s" % (func_name, size))
+            print("\t***\n\n")
+            pylab.plot(sizes, millis, label=func_name)
+        pylab.title(gen_name)
+        pylab.legend(loc='upper left', title="Sorts")
+        current += 1
+
+    pylab.show()
