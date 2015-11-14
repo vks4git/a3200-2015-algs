@@ -18,7 +18,7 @@ class Vertex:
     def __init__(self, index):
         self.index = index
         self.distance = 0
-        self.adjacent = set()
+        self.adjacent = []
         self.previous = None
 
     def __lt__(self, other):
@@ -35,11 +35,12 @@ class WeightedGraph(GraphInterface):
         if v > self.__max:
             for i in range(self.__max + 1, v + 1):
                 self.__V.append(Vertex(i))
+            self.__max = v
 
     def add_direct_link(self, v1, v2, weight):
         self.add_vertex(v1)
         self.add_vertex(v2)
-        self.__V[v1].adjacent.add((Vertex(v2), weight))
+        self.__V[v1].adjacent.append((self.__V[v2], weight))
 
     def paths(self, w):
         self.__dijkstra(w)
@@ -50,18 +51,21 @@ class WeightedGraph(GraphInterface):
                 path.append(v.index)
                 v = v.previous
             path.reverse()
+            if path[0] != w:
+                path.clear()
             ans += [path]
         return ans
 
     def __dijkstra(self, w):
-        self.__V[w].distance = 0
         pq = []
         passed = []
         for v in self.__V:
             v.distance = self.__inf
+            v.previous = None
         self.__V[w].distance = 0
         for v in self.__V:
-            heapq.heappush(pq, v)
+            pq.append(v)
+        heapq.heapify(pq)
         while len(pq) > 0:
             u = heapq.heappop(pq)
             passed.append(u)
@@ -70,5 +74,5 @@ class WeightedGraph(GraphInterface):
                 v = v[0]
                 if v.distance > u.distance + weight:
                     v.distance = u.distance + weight
-                    v.previous = u
+                    v.previous = self.__V[u.index]
                     heapq.heapify(pq)
