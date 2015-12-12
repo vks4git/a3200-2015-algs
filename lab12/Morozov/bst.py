@@ -16,14 +16,11 @@ class Node:
     def __init__(self, value, parent):
         self.value = value
         self.parent = parent
-        self.side = -1
         self.left = None
         self.right = None
 
 
 class BST(Set):
-    left = 0
-    right = 1
 
     def __init__(self):
         self._root = None
@@ -48,10 +45,8 @@ class BST(Set):
         current = Node(value, parent)
         if value < parent.value:
             parent.left = current
-            current.side = self.left
         elif value > parent.value:
             parent.right = current
-            current.side = self.right
 
     def check(self, value):
         current = self._root
@@ -71,7 +66,7 @@ class BST(Set):
                 elem = elem.left
             return elem
         else:
-            while elem.parent is not None and elem.side == self.right:
+            while elem.parent is not None and elem is elem.parent.right:
                 elem = elem.parent
             return elem.parent
 
@@ -83,7 +78,6 @@ class BST(Set):
             minimum = minimum.left
         current = Node(0, minimum)
         current.parent = minimum
-        current.side = self.left
         for i in range(self._size):
             current = self.successor(current)
             yield current.value
